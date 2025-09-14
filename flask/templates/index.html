@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Churn Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-3 text-center">📊 Customer Churn Prediction</h2>
+
+        <form method="POST" class="row g-3">
+
+            <div class="col-md-4">
+                <label>Age</label>
+                <input type="number" class="form-control" name="Age" value="{{ request.form.Age or '' }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Gender</label>
+                <select class="form-select" name="Gender">
+                    <option value="Male" {% if request.form.Gender == "Male" %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if request.form.Gender == "Female" %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label>Tenure (months)</label>
+                <input type="number" class="form-control" name="Tenure" value="{{ request.form.Tenure or '' }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Usage Frequency</label>
+                <input type="number" class="form-control" name="Usage_Frequency" value="{{ request.form.Usage_Frequency or '' }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Support Calls</label>
+                <input type="number" class="form-control" name="Support_Calls" value="{{ request.form.Support_Calls or '' }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Subscription Type</label>
+                <select class="form-select" name="Subscription_Type">
+                    <option value="Basic" {% if request.form.Subscription_Type == "Basic" %}selected{% endif %}>Basic</option>
+                    <option value="Standard" {% if request.form.Subscription_Type == "Standard" %}selected{% endif %}>Standard</option>
+                    <option value="Premium" {% if request.form.Subscription_Type == "Premium" %}selected{% endif %}>Premium</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label>Contract Length</label>
+                <select class="form-select" name="Contract_Length">
+                    <option value="Monthly" {% if request.form.Contract_Length == "Monthly" %}selected{% endif %}>Monthly</option>
+                    <option value="Quarterly" {% if request.form.Contract_Length == "Quarterly" %}selected{% endif %}>Quarterly</option>
+                    <option value="Annual" {% if request.form.Contract_Length == "Annual" %}selected{% endif %}>Annual</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label>Total Spend ($)</label>
+                <input type="number" class="form-control" name="Total_Spend" value="{{ request.form.Total_Spend or '' }}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label>Last Interaction (days)</label>
+                <input type="number" class="form-control" name="Last_Interaction" value="{{ request.form.Last_Interaction or '' }}" required>
+            </div>
+
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Predict</button>
+            </div>
+        </form>
+
+        {% if prediction %}
+        <div class="alert mt-4 {{ 'alert-danger' if 'Churn' in prediction else 'alert-success' }}">
+            <h4>{{ prediction }}</h4>
+            <p>Probability of Churn: <strong>{{ probability }}</strong></p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
